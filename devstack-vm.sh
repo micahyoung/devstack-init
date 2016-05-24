@@ -80,6 +80,9 @@ neutron security-group-rule-create bosh --protocol=tcp --port-range-min=25555 --
 neutron security-group-rule-create bosh --protocol=tcp --remote-group-id=bosh
 neutron security-group-rule-create bosh --protocol=icmp #debugging
 neutron floatingip-create public # creates 192.168.122.251
+
+source ./accrc/demo/admin
+openstack flavor create m1.lite --vcpus 1 --ram 1024 --disk 20 --public
 ;;
 
 esac
