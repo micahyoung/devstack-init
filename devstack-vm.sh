@@ -15,7 +15,7 @@ host_ip=`hostname -I | cut -f1 -d' '`
 export http_proxy="http://192.168.1.6:8123"
 export https_proxy="http://192.168.1.6:8123"
 export no_proxy="127.0.0.1,localhost,$host_ip"
-GIT_BASE="https://git.openstack.org"
+GIT_BASE="https://github.com"
 
 DEBIAN_FRONTEND=noninteractive sudo apt-get -qqy update || sudo yum update -qy
 DEBIAN_FRONTEND=noninteractive sudo apt-get install -qqy git || sudo yum install -qy git
