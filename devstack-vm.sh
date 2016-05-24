@@ -79,8 +79,7 @@ neutron security-group-rule-create bosh --protocol=tcp --port-range-min=6868  --
 neutron security-group-rule-create bosh --protocol=tcp --port-range-min=25555 --port-range-max=25555 --remote-ip-prefix=0.0.0.0/0
 neutron security-group-rule-create bosh --protocol=tcp --remote-group-id=bosh
 neutron security-group-rule-create bosh --protocol=icmp #debugging
-public_network_id=`neutron net-show public -F id -f value`
-neutron floatingip-create $public_network_id --floating-ip-address 192.168.122.250
+neutron floatingip-create public # creates 192.168.122.251
 ;;
 
 esac
