@@ -4,7 +4,16 @@ set -ex
 case `whoami` in
 
 root)
-sysctl -w net.ipv4.ip_forward=1
+# change ubuntu password for console access
+echo -e "ubuntu\nubuntu" | sudo passwd ubuntu
+
+# set up bosh network interface
+cat > /etc/network/interfaces.d/eth1.cfg <<EOF
+auto eth1
+iface eth1 inet dhcp
+EOF
+
+# set up stack user
 useradd -m -s /bin/bash stack
 echo -e "stack ALL=(ALL) NOPASSWD:ALL\nDefaults:stack !requiretty" > /etc/sudoers.d/0-stack
 chmod 0777 $0
@@ -13,12 +22,12 @@ su -l stack $0
 
 stack)
 host_ip="172.18.161.6"
-proxy_ip="172.18.161.5"
-export http_proxy="http://$proxy_ip:8123"
-export https_proxy="http://$proxy_ip:8123"
-export no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
-GIT_BASE="http://$proxy_ip"
-#GIT_BASE="https://github.com"
+#proxy_ip="172.18.161.5"
+#export http_proxy="http://$proxy_ip:8123"
+#export https_proxy="http://$proxy_ip:8123"
+#export no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
+#GIT_BASE="https://dl.dropboxusercontent.com/u/199676/repos/github.com"
+GIT_BASE="https://github.com"
 
 DEBIAN_FRONTEND=noninteractive sudo apt-get -qqy update || sudo yum update -qy
 DEBIAN_FRONTEND=noninteractive sudo apt-get install -qqy git || sudo yum install -qy git
@@ -66,10 +75,10 @@ PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
 
 # Speedups
-http_proxy="$http_proxy"
-https_proxy="$https_proxy"
-no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
-GIT_BASE="$GIT_BASE"
+#http_proxy="$http_proxy"
+#https_proxy="$https_proxy"
+#no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
+#GIT_BASE="$GIT_BASE"
 EOF
 
 
