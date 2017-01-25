@@ -87,7 +87,7 @@ EOF
 
 ./stack.sh
 
-source ./openrc
+source ./openrc admin demo
 echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDjiROOp2ClfiN0/9k+le/jMqHTI0/akgggCZ2hDf9aGhNFaVwdnU/yrKtCIobYv6LPX/uwQBwXUgWQ5ezlffe79RWJs7OQYEsN8aOSlqcBqfap0f2K0sQpU9jYvJuUdOw/pzpHAGo5yFlW8oCSJke/DU3LGqJkw/CVOCq1pohczVgYiBia0Un4l9CceT22bb2ZxMfy26jw0VtX4cC2UtVyfXI9xjaqbzFCJwQcIe8ECom0e7RLF0aglCSs+gwoRg/HK7NjnFPLVL0CuB4aBD+B6eLtI0LxB1ixcsnRi/UXeLFKfs+jwysUEgcN1H5pY8N/X44yNQ+OkMXZ/7PwpH/d vcap@bosh-init | nova keypair-add --pub-key=- --key-type=ssh bosh
 
 neutron security-group-create bosh
@@ -99,8 +99,10 @@ neutron security-group-rule-create bosh --protocol=udp --remote-group-id=bosh
 neutron security-group-rule-create bosh --protocol=icmp #debugging
 neutron floatingip-create public # creates 192.168.1.241
 
-source ./accrc/demo/admin
-openstack flavor create m1.lite --vcpus 1 --ram 1024 --disk 5 --public
+#Create minimal flavor
+# - ephemeral disk is 5G since defaults are insufficient: bosh will use 1GB for swap and the rest is for /var/vcap/data
+openstack flavor create m1.lite --public --vcpus 1 --ram 1024 --disk 5 --ephemeral 5 
+openstack flavor create m1.feather --public --vcpus 1 --ram 2048 --disk 5 --ephemeral 5 
 
 neutron net-list # show network ids for BOSH
 ;;
