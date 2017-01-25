@@ -8,10 +8,13 @@ root)
 echo -e "ubuntu\nubuntu" | sudo passwd ubuntu
 
 # set up bosh network interface
-cat > /etc/network/interfaces.d/eth1.cfg <<EOF
-auto eth1
-iface eth1 inet dhcp
+cat > /etc/network/interfaces.d/ens7.cfg <<EOF
+auto ens7
+iface ens7 inet dhcp
 EOF
+
+# bring interface up, if not already
+ifup ens7
 
 # set up stack user
 useradd -m -s /bin/bash stack
@@ -22,11 +25,11 @@ su -l stack $0
 
 stack)
 host_ip="172.18.161.6"
-#proxy_ip="172.18.161.5"
-#export http_proxy="http://$proxy_ip:8123"
-#export https_proxy="http://$proxy_ip:8123"
-#export no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
-#GIT_BASE="https://dl.dropboxusercontent.com/u/199676/repos/github.com"
+proxy_ip="172.18.161.5"
+export http_proxy="http://$proxy_ip:8123"
+export https_proxy="http://$proxy_ip:8123"
+export no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
+#GIT_BASE="http://s3.amazonaws.com/openstack-liberty-cache"
 GIT_BASE="https://github.com"
 
 DEBIAN_FRONTEND=noninteractive sudo apt-get -qqy update || sudo yum update -qy
@@ -34,7 +37,7 @@ DEBIAN_FRONTEND=noninteractive sudo apt-get install -qqy git || sudo yum install
 
 sudo chown stack:stack /home/stack
 cd /home/stack
-git clone --branch=stable/liberty $GIT_BASE/openstack-dev/devstack.git
+git clone --branch=stable/newton $GIT_BASE/openstack-dev/devstack.git
 cd devstack
 
 cat > local.conf <<EOF
@@ -66,7 +69,7 @@ FLOATING_RANGE="172.18.161.0/24"
 FIXED_RANGE="10.0.0.0/24"
 Q_FLOATING_ALLOCATION_POOL=start=172.18.161.250,end=172.18.161.254
 PUBLIC_NETWORK_GATEWAY=172.18.161.1
-PUBLIC_INTERFACE=eth1
+PUBLIC_INTERFACE=ens7
 
 # Open vSwitch provider networking configuration
 Q_USE_PROVIDERNET_FOR_PUBLIC=True
@@ -75,10 +78,10 @@ PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
 
 # Speedups
-#http_proxy="$http_proxy"
-#https_proxy="$https_proxy"
-#no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
-#GIT_BASE="$GIT_BASE"
+http_proxy="$http_proxy"
+https_proxy="$https_proxy"
+no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
+GIT_BASE="$GIT_BASE"
 EOF
 
 

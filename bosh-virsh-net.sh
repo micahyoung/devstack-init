@@ -1,9 +1,10 @@
 #!/bin/bash
-virsh net-destroy bosh
-
 cat > /tmp/bosh-virsh-net.xml <<EOF
 <network>
   <name>bosh</name>
+  <dns>
+    <forwarder addr="8.8.8.8"/>
+  </dns>
   <ip address='172.18.161.1' netmask='255.255.255.0'>
     <dhcp>
       <range start='172.18.161.2' end='172.18.161.254'/>
@@ -14,4 +15,6 @@ cat > /tmp/bosh-virsh-net.xml <<EOF
 </network>
 EOF
 
-virsh net-create /tmp/bosh-virsh-net.xml
+virsh net-define /tmp/bosh-virsh-net.xml
+virsh net-autostart bosh
+virsh net-start bosh
