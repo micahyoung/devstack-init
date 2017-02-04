@@ -7,7 +7,7 @@ sudo apt install uvtool-libvirt
 ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
 
 uvt-simplestreams-libvirt sync --verbose release=xenial arch=amd64
-uvt-kvm create --memory=10240 --disk=60 --cpu=4 --run-script-once=devstack-vm.sh devstack-0 arch=amd64 release=xenial
+uvt-kvm create --memory=40960 --disk=200 --cpu=4 --run-script-once=devstack-vm.sh devstack-0 arch=amd64 release=xenial
 while ! uvt-kvm ip devstack-0; do sleep 1; done
 ./devstack-net.sh
 ```
