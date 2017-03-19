@@ -86,13 +86,12 @@ no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
 GIT_BASE="$GIT_BASE"
 EOF
 
-./stack.sh
-
+cat > post-stack.sh <<EOF
 source ./openrc admin demo
 
-cat > id_bosh_rsa.pub <<EOF
+cat > id_bosh_rsa.pub <<EOF2
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDjiROOp2ClfiN0/9k+le/jMqHTI0/akgggCZ2hDf9aGhNFaVwdnU/yrKtCIobYv6LPX/uwQBwXUgWQ5ezlffe79RWJs7OQYEsN8aOSlqcBqfap0f2K0sQpU9jYvJuUdOw/pzpHAGo5yFlW8oCSJke/DU3LGqJkw/CVOCq1pohczVgYiBia0Un4l9CceT22bb2ZxMfy26jw0VtX4cC2UtVyfXI9xjaqbzFCJwQcIe8ECom0e7RLF0aglCSs+gwoRg/HK7NjnFPLVL0CuB4aBD+B6eLtI0LxB1ixcsnRi/UXeLFKfs+jwysUEgcN1H5pY8N/X44yNQ+OkMXZ/7PwpH/d vcap@bosh-init 
-EOF
+EOF2
 
 openstack keypair create --public-key=id_bosh_rsa.pub bosh
 
@@ -116,6 +115,12 @@ openstack flavor create m1.feather --public --vcpus 1 --ram 2048 --disk 5
 
 #output private net uuid
 openstack network show private -c id
+EOF
+
+chmod +x post-stack.sh
+
+./stack.sh
+./post-stack.sh
 ;;
 
 esac
