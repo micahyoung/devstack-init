@@ -105,11 +105,12 @@ openstack security group rule create bosh --protocol=tcp --dst-port=25555
 openstack security group rule create bosh --protocol=tcp --src-group=bosh
 openstack security group rule create bosh --protocol=udp --src-group=bosh
 openstack security group rule create bosh --protocol=icmp #debugging
-openstack floating ip create public --floating-ip-address 172.18.161.251
+openstack floating ip create public --floating-ip-address 172.18.161.252
+openstack floating ip create public --floating-ip-address 172.18.161.253
+openstack floating ip create public --floating-ip-address 172.18.161.254
 
 #Concourse
 openstack security group rule create bosh --protocol=tcp --dst-port=8080
-openstack floating ip create public --floating-ip-address 172.18.161.250
 
 #Create minimal flavor
 # - ephemeral disk is 5G since defaults are insufficient: bosh will use 1GB for swap and the rest is for /var/vcap/data
