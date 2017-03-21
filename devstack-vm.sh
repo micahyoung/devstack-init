@@ -114,8 +114,8 @@ openstack security group rule create bosh --protocol=tcp --dst-port=8080
 
 #Create minimal flavor
 # - ephemeral disk is 5G since defaults are insufficient: bosh will use 1GB for swap and the rest is for /var/vcap/data
-openstack flavor create m1.lite --public --vcpus 1 --ram 1024 --disk 5
-openstack flavor create m1.feather --public --vcpus 1 --ram 2048 --disk 5
+openstack flavor create m1.lite --public --vcpus 1 --ram 1024 --disk 10
+openstack flavor create m1.feather --public --vcpus 1 --ram 2048 --disk 10
 
 #output private net uuid
 openstack network show private -c id
