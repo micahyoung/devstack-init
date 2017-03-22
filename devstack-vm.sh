@@ -114,6 +114,17 @@ openstack floating ip create public --floating-ip-address 172.18.161.254
 #Concourse
 openstack security group rule create bosh --protocol=tcp --dst-port=8080
 
+#CloudFoundry
+openstack security group create cf
+openstack security group rule create cf --protocol=udp --dst-port=68
+openstack security group rule create cf --protocol=udp --dst-port=3457
+openstack security group rule create cf --protocol=icmp
+openstack security group rule create cf --protocol=tcp --dst-port=22
+openstack security group rule create cf --protocol=tcp --dst-port=80
+openstack security group rule create cf --protocol=tcp --dst-port=443
+openstack security group rule create cf --protocol=tcp --dst-port=4443
+openstack security group rule create cf --protocol=udp --src-group=cf
+
 #Create minimal flavor
 # - ephemeral disk is 5G since defaults are insufficient: bosh will use 1GB for swap and the rest is for /var/vcap/data
 openstack flavor create m1.lite --public --vcpus 1 --ram 1024 --disk 10
