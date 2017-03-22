@@ -125,7 +125,10 @@ openstack security group rule create cf --protocol=tcp --dst-port=22
 openstack security group rule create cf --protocol=tcp --dst-port=80
 openstack security group rule create cf --protocol=tcp --dst-port=443
 openstack security group rule create cf --protocol=tcp --dst-port=4443
+openstack security group rule create cf --protocol=tcp --src-group=cf
 openstack security group rule create cf --protocol=udp --src-group=cf
+openstack security group rule create bosh --protocol=tcp --src-group=cf
+openstack security group rule create bosh --protocol=udp --src-group=cf
 
 #Create minimal flavor
 # - ephemeral disk is 5G since defaults are insufficient: bosh will use 1GB for swap and the rest is for /var/vcap/data
