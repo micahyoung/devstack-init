@@ -59,6 +59,8 @@ RABBIT_PASSWORD=password
 SERVICE_PASSWORD=password
 SERVICE_TOKEN=password
 
+VOLUME_BACKING_FILE_SIZE=102400M
+
 # Services:
 ## Enable Neutron networking
 disable_service n-net
