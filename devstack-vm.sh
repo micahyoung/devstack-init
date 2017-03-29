@@ -9,8 +9,6 @@ network_interface=ens7
 # change ubuntu password for console access
 echo -e "ubuntu\nubuntu" | sudo passwd ubuntu
 
-cp $0 $HOME/devstack-vm.sh
-
 # set up bosh network interface
 cat > /etc/network/interfaces.d/bosh.cfg <<EOF
 auto $network_interface
