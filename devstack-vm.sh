@@ -22,7 +22,7 @@ ifup $network_interface
 useradd -m -s /bin/bash stack
 echo -e "stack ALL=(ALL) NOPASSWD:ALL\nDefaults:stack !requiretty" > /etc/sudoers.d/0-stack
 chmod 0777 $0
-su -l stack $0
+su -l stack `pwd`/$0
 ;;
 
 stack)
