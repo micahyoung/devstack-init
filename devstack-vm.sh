@@ -65,6 +65,9 @@ enable_service q-dhcp
 enable_service q-l3
 enable_service q-meta
 
+## Disable tempest
+disable_service tempest
+
 ## Neutron options
 Q_USE_SECGROUP=True
 FIXED_RANGE=10.0.0.0/24
