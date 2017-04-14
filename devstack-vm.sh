@@ -6,9 +6,6 @@ case `whoami` in
 root)
 network_interface=ens7
 
-# change ubuntu password for console access
-echo -e "ubuntu\nubuntu" | sudo passwd ubuntu
-
 # set up bosh network interface
 cat > /etc/network/interfaces.d/bosh.cfg <<EOF
 auto $network_interface
