@@ -82,6 +82,9 @@ OVS_PHYSICAL_BRIDGE=br-ex
 PUBLIC_BRIDGE=br-ex
 OVS_BRIDGE_MAPPINGS=public:br-ex
 
+# Workaround until this newton/stable bug is fixed: https://bugs.launchpad.net/devstack/+bug/1667545
+REQUIREMENTS_BRANCH=refs/changes/27/454927/1
+
 # Speedups
 http_proxy="$http_proxy"
 https_proxy="$https_proxy"
