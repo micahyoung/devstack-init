@@ -4,17 +4,6 @@ set -ex
 case `whoami` in
 
 root)
-network_interface=ens7
-
-# set up bosh network interface
-cat > /etc/network/interfaces.d/bosh.cfg <<EOF
-auto $network_interface
-iface $network_interface inet dhcp
-EOF
-
-# bring interface up, if not already
-ifup $network_interface
-
 # set up stack user
 useradd -m -s /bin/bash stack
 echo -e "stack ALL=(ALL) NOPASSWD:ALL\nDefaults:stack !requiretty" > /etc/sudoers.d/0-stack
@@ -23,13 +12,8 @@ su -l stack `pwd`/$0
 ;;
 
 stack)
-host_ip="172.18.161.6"
-proxy_ip="172.18.161.5"
-network_interface=ens7
-export http_proxy="http://$proxy_ip:8123"
-export https_proxy="http://$proxy_ip:8123"
-export no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
-#GIT_BASE="http://s3.amazonaws.com/openstack-liberty-cache"
+host_ip="10.10.0.5"
+network_interface=ens192
 GIT_BASE="https://github.com"
 
 DEBIAN_FRONTEND=noninteractive sudo apt-get -qqy update || sudo yum update -qy
@@ -86,9 +70,6 @@ OVS_BRIDGE_MAPPINGS=public:br-ex
 REQUIREMENTS_BRANCH=refs/changes/27/454927/1
 
 # Speedups
-http_proxy="$http_proxy"
-https_proxy="$https_proxy"
-no_proxy="127.0.0.1,localhost,$host_ip,$proxy_ip"
 GIT_BASE="$GIT_BASE"
 EOF
 
