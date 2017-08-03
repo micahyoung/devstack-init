@@ -77,8 +77,8 @@ cat > post-stack.sh <<EOF
 source ./openrc admin demo
 
 #Bosh
-openstack quota set demo --instances 20
-openstack quota set demo --cores 20
+openstack quota set demo --instances 25
+openstack quota set demo --cores 25
 openstack quota set demo --volumes 20
 openstack quota set demo --ram 122880
 cat > id_bosh_rsa.pub <<EOF2
@@ -124,6 +124,7 @@ openstack flavor create m1.small --public --vcpus 1 --ram 1024 --disk 10
 openstack flavor create m1.medium --public --vcpus 1 --ram 2048 --disk 10
 openstack flavor create m1.large --public --vcpus 1 --ram 8192 --disk 15
 openstack flavor create m1.xlarge --public --vcpus 1 --ram 16384 --disk 15
+openstack flavor create r3.xlarge --public --vcpus 1 --ram 8192 --disk 15 --ephemeral 20
 
 #output private net uuid
 openstack network show private -c id
